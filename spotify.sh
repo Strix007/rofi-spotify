@@ -1,5 +1,7 @@
 #!/bin/bash
 
+USE_FORMAT_ALT=false
+
 # Get the status of the player
 STATUS=$(playerctl --player=spotify status)
 
@@ -30,8 +32,6 @@ elif [[ $STATUS == "Paused" ]]; then
 else
     ICON_TOGGLE=""
 fi
-echo ${ICON_STR[@]}
-echo ${ICON_HEX[@]}
 ICON_STOP=""
 ICON_PREV=""
 ICON_NEXT=""
@@ -40,14 +40,29 @@ ICON_FORWARD=""
 ICON_SHUFFLE="󰒝"
 ICON_REPEAT="󰑖"
 # Order of icons
-ICON_FORMAT="$ICON_TOGGLE\n$ICON_BACKWARD\n$ICON_FORWARD\n$ICON_PREV\n$ICON_NEXT\n$ICON_REPEAT\n$ICON_SHUFFLE\n$ICON_STOP"
+if [ $USE_FORMAT_ALT = true ]; then
+    ICON_FORMAT="$ICON_TOGGLE\n$ICON_BACKWARD\n$ICON_FORWARD\n$ICON_PREV\n$ICON_NEXT\n$ICON_REPEAT\n$ICON_SHUFFLE\n$ICON_STOP"
+    COLUMNS="8"
+    LINES="1"
+    ACTIVE_POS="6"
+    URGENT_POS="6"
+    THEME="spotify-alt"
+elif [ $USE_FORMAT_ALT = false ]; then
+    ICON_FORMAT="$ICON_TOGGLE\n$ICON_PREV\n$ICON_NEXT\n$ICON_REPEAT\n$ICON_SHUFFLE\n$ICON_STOP"
+    COLUMNS="6"
+    LINES="1"
+    ACTIVE_POS="4"
+    URGENT_POS="4"
+    THEME="spotify"
+fi
+
 
 # Check for shuffle
 SHUFFLE_STATUS=$(playerctl --player=spotify shuffle)
 if [[ $SHUFFLE_STATUS == "On" ]]; then
-    active="-a 6"
+    active="-a $ACTIVE_POS"
 elif [[ $SHUFFLE_STATUS == "Off" ]]; then
-    urgent="-u 6"
+    urgent="-u $URGENT_POS"
 else
     echo "Unexpected shuffle case"
 fi
@@ -63,17 +78,19 @@ else
 fi
 
 # Run rofi function
+# Run function when spotify is playing
 rofi_run_playing (){
     printf $1 | rofi -dmenu \
                      -p "$FORMAT" \
                      -theme-str "entry { enabled: false;}" \
                      -theme-str 'textbox-prompt-colon { str: "󰎈";}' \
                      -theme-str 'textbox-prompt-colon { background-color: @active;}' \
-                     -theme-str "listview {columns: 8; lines: 1;}" \
+                     -theme-str "listview {columns: $COLUMNS; lines: $LINES;}" \
                      -mesg "$TITLE :: $DURATION" \
 		                 ${active} ${urgent} \
-		                 -theme "$HOME/projects/rofi-spotify/spotify.rasi"
+		                 -theme "$HOME/projects/rofi-spotify/$THEME.rasi"
 }
+# Run function when spotify is paused
 rofi_run_paused (){
     printf $1 | rofi -dmenu \
                      -p "$FORMAT" \
@@ -81,12 +98,13 @@ rofi_run_paused (){
                      -theme-str 'textbox-prompt-colon { str: "󰎊";}' \
                      -theme-str 'textbox-prompt-colon { background-color: @urgent;}' \
                      -theme-str 'prompt { background-color: @urgent;}' \
-                     -theme-str "listview {columns: 8; lines: 1;}" \
+                     -theme-str "listview {columns: $COLUMNS; lines: $LINES;}" \
                      -mesg "$TITLE :: $DURATION" \
 		                 ${active} ${urgent} \
-		                 -theme "$HOME/projects/rofi-spotify/spotify.rasi"
+		                 -theme "$HOME/projects/rofi-spotify/$THEME.rasi"
 }
 
+# Icons for when player is not started
 ICON_YES=""
 ICON_NO=""
 NO_PLAYER_RUNNING_FORMAT="$ICON_YES\n$ICON_NO"

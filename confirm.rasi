@@ -1,19 +1,12 @@
-/**
- *
- * Author : Aditya Shakya (adi1090x)
- * Github : @adi1090x
- * 
- * Rofi Theme File
- * Rofi Version: 1.7.3
- **/
 
 /*****----- Configuration -----*****/
 configuration {
+    font: "JetBrains Mono 10";
     show-icons:                 false;
 }
 
 /*****----- Global Properties -----*****/
-@import                          "~/.config/rofi/shared/colors.rasi"
+@import                          "colors.rasi"
 
 /*****----- Main Window -----*****/
 window {

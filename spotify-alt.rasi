@@ -12,7 +12,7 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       800px;
+    width:                       1100px;
     x-offset:                    0px;
     y-offset:                    0px;
     margin:                      0px;
