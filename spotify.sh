@@ -41,18 +41,22 @@ ICON_SHUFFLE="󰒝"
 ICON_REPEAT="󰑖"
 # Order of icons
 if [ $USE_FORMAT_ALT = true ]; then
-    ICON_FORMAT="$ICON_TOGGLE\n$ICON_BACKWARD\n$ICON_FORWARD\n$ICON_PREV\n$ICON_NEXT\n$ICON_REPEAT\n$ICON_SHUFFLE\n$ICON_STOP"
+    ICON_FORMAT="$ICON_TOGGLE\n$ICON_STOP\n$ICON_BACKWARD\n$ICON_FORWARD\n$ICON_PREV\n$ICON_NEXT\n$ICON_SHUFFLE\n$ICON_REPEAT"
     COLUMNS="8"
     LINES="1"
-    ACTIVE_POS="6"
-    URGENT_POS="6"
+    ACTIVE_SHUFFLE_POS="6"
+    URGENT_SHUFFLE_POS="6"
+    ACTIVE_REPEAT_POS="7"
+    URGENT_REPEAT_POS="7"
     THEME="spotify-alt"
 elif [ $USE_FORMAT_ALT = false ]; then
-    ICON_FORMAT="$ICON_TOGGLE\n$ICON_PREV\n$ICON_NEXT\n$ICON_REPEAT\n$ICON_SHUFFLE\n$ICON_STOP"
+    ICON_FORMAT="$ICON_TOGGLE\n$ICON_STOP\n$ICON_PREV\n$ICON_NEXT\n$ICON_SHUFFLE\n$ICON_REPEAT"
     COLUMNS="6"
     LINES="1"
-    ACTIVE_POS="4"
-    URGENT_POS="4"
+    ACTIVE_SHUFFLE_POS="4"
+    URGENT_SHUFFLE_POS="4"
+    ACTIVE_REPEAT_POS="5"
+    URGENT_REPEAT_POS="5"
     THEME="spotify"
 fi
 
@@ -60,9 +64,9 @@ fi
 # Check for shuffle
 SHUFFLE_STATUS=$(playerctl --player=spotify shuffle)
 if [[ $SHUFFLE_STATUS == "On" ]]; then
-    active="-a $ACTIVE_POS"
+    active="-a $ACTIVE_SHUFFLE_POS"
 elif [[ $SHUFFLE_STATUS == "Off" ]]; then
-    urgent="-u $URGENT_POS"
+    urgent="-u $URGENT_SHUFFLE_POS"
 else
     echo "Unexpected shuffle case"
 fi
@@ -70,9 +74,9 @@ fi
 # Check for repeat
 REPEAT_STATUS=$(playerctl --player=spotify loop)
 if [[ $REPEAT_STATUS == "Track" || $REPEAT_STATUS == "Playlist" ]]; then
-    [ -n "$active" ] && active+=",5" || active="-a 5"
+    [ -n "$active" ] && active+=",$ACTIVE_REPEAT_POS" || active="-a $ACTIVE_REPEAT_POS"
 elif [[ $REPEAT_STATUS == "None" ]]; then
-    [ -n "$urgent" ] && urgent+=",5" || urgent="-u 5"
+    [ -n "$urgent" ] && urgent+=",$URGENT_REPEAT_POS" || urgent="-u $URGENT_REPEAT_POS"
 else
     echo "Unexpected loop check case"
 fi
@@ -88,7 +92,7 @@ rofi_run_playing (){
                      -theme-str "listview {columns: $COLUMNS; lines: $LINES;}" \
                      -mesg "$TITLE :: $DURATION" \
 		                 ${active} ${urgent} \
-		                 -theme "$HOME/projects/rofi-spotify/$THEME.rasi"
+		                 -theme "$HOME/.config/rofi/spotify/$THEME.rasi"
 }
 # Run function when spotify is paused
 rofi_run_paused (){
@@ -101,7 +105,7 @@ rofi_run_paused (){
                      -theme-str "listview {columns: $COLUMNS; lines: $LINES;}" \
                      -mesg "$TITLE :: $DURATION" \
 		                 ${active} ${urgent} \
-		                 -theme "$HOME/projects/rofi-spotify/$THEME.rasi"
+		                 -theme "$HOME/.config/rofi/spotify/$THEME.rasi"
 }
 
 # Icons for when player is not started
@@ -124,7 +128,6 @@ player_action (){
 }
 
 # Evaluate output
-echo $STATUS
 if [[ $STATUS == "Playing" ]]; then
     OUTPUT=$(rofi_run_playing $ICON_FORMAT)
 elif [[ $STATUS == "Paused" ]]; then
@@ -132,7 +135,6 @@ elif [[ $STATUS == "Paused" ]]; then
 else
     OUTPUT=$(confirm_cmd $NO_PLAYER_RUNNING_FORMAT)
 fi
-echo $OUTPUT
 if [[ $OUTPUT == $ICON_TOGGLE ]]; then
     player_action play-pause
 elif [[ $OUTPUT == $ICON_BACKWARD ]]; then
@@ -161,4 +163,6 @@ elif [[ $OUTPUT == $ICON_YES ]]; then
 elif [[ $OUTPUT == $ICON_NO ]]; then
     echo "Script exited"
     exit
+else
+    echo "Unexpected input"
 fi
