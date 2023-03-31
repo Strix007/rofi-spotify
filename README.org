@@ -1,0 +1,45 @@
+#+TITLE: rofi-spotify
+#+AUTHOR: Arbab Khan   
+#+EMAIL: arbabashruff@gmail.com
+
+#+DESCRIPTION: This is a spotify script based on rofi written in bash. This was inspired by adi1090x’s rofi mpd script.
+Minimal spotify widget baed on rofi written in bash
+
+#+ATTR_HTML: align center :title showcase :alt showcase
+[[file:assets/images/showcase.png]]
+
+* Table Of Contents :toc:
+- [[#requirements][Requirements]]
+- [[#installation][Installation]]
+- [[#usage][Usage]]
+- [[#customization][Customization]]
+- [[#credits][Credits]]
+- [[#contributing][Contributing]]
+
+* Requirements
+- [[https://github.com/davatorium/rofi][rofi]]
+- [[https://github.com/altdesktop/playerctl][Playerctl]] 
+- [[https://github.com/ryanoasis/nerd-fonts][Nerd Fonts]]
+
+* Installation
+  - Clone this repository
+    =git clone https://github.com/Strix007/rofi-spotify.git ~/.config/rofi/spotify=
+  - Make script executable
+    =chmod +x ~/.config/rofi/spotify/spotify.sh=
+
+* Usage
+- Setup a keybind to  =~/.config/rofi/spotify/spotify.sh= in your WM or DE.
+
+* Customization
+There are two formats you can use for this widget.
+#+ATTR_HTML: align center :title showcase :alt showcase
+[[file:assets/images/showcase.png]]
+#+ATTR_HTML: align center :title showcase-alt :alt showcase-alt
+[[file:assets/images/showcase-alt.png]]
+You can switch between them by editing the =USE_FORMAT_ALT= variable in =spotify.sh=.
+
+* Credits
+This script was heavily inspired by [[https://github.com/adi1090x/rofi][adi1080x's rofi]] and uses his mpd widget theming. Check out his repo for more cool rofi widgets.
+
+* Contributing
+If run into any issues with the script, feel free to open an issue. If you see me doing anything inefficiently in this config or you think something would be useful to me or you want to correct some error on my part, feel free to open a pull request.
