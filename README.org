@@ -13,6 +13,8 @@ Minimal spotify widget baed on rofi written in bash
 - [[#installation][Installation]]
 - [[#usage][Usage]]
 - [[#customization][Customization]]
+  - [[#format][Format]]
+  - [[#colors][Colors]]
 - [[#credits][Credits]]
 - [[#contributing][Contributing]]
 
@@ -31,12 +33,15 @@ Minimal spotify widget baed on rofi written in bash
 - Setup a keybind to  =~/.config/rofi/spotify/spotify.sh= in your WM or DE.
 
 * Customization
+** Format
 There are two formats you can use for this widget.
 #+ATTR_HTML: align center :title showcase :alt showcase
 [[file:assets/images/showcase.png]]
 #+ATTR_HTML: align center :title showcase-alt :alt showcase-alt
 [[file:assets/images/showcase-alt.png]]
 You can switch between them by editing the =USE_FORMAT_ALT= variable in =spotify.sh=.
+** Colors
+You can easily change the theme of this widget by editing the =colors.rasi=. Check [[https://github.com/adi1090x/rofi/tree/master/files/colors][this]] repository out for more color options.
 
 * Credits
 This script was heavily inspired by [[https://github.com/adi1090x/rofi][adi1080x's rofi]] and uses his mpd widget theming. Check out his repo for more cool rofi widgets.
