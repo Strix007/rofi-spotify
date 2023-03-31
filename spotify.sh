@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USE_FORMAT_ALT=false
+USE_FORMAT_ALT=true
 
 # Get the status of the player
 STATUS=$(playerctl --player=spotify status)
@@ -118,7 +118,7 @@ confirm_cmd() {
 	  printf $1 | rofi -dmenu \
 		                 -p 'Confirmation' \
 		                 -mesg 'Spotify Is Not Currently Active. Would You Like To Open Spotify?' \
-		                 -theme confirm.rasi
+		                 -theme "$HOME/.config/rofi/spotify/confirm.rasi"
 }
 
 
