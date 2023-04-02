@@ -3,7 +3,7 @@
 #+EMAIL: arbabashruff@gmail.com
 
 #+DESCRIPTION: This is a spotify script based on rofi written in bash. This was inspired by adi1090x’s rofi mpd script.
-Minimal spotify widget baed on rofi written in bash
+Minimal spotify widget based on rofi written in bash
 
 #+ATTR_HTML: align center :title showcase :alt showcase
 [[file:assets/images/showcase.png]]
@@ -15,6 +15,7 @@ Minimal spotify widget baed on rofi written in bash
 - [[#customization][Customization]]
   - [[#format][Format]]
   - [[#colors][Colors]]
+  - [[#directory][Directory]]
 - [[#credits][Credits]]
 - [[#contributing][Contributing]]
 
@@ -42,6 +43,8 @@ There are two formats you can use for this widget.
 You can switch between them by editing the =USE_FORMAT_ALT= variable in =spotify.sh=.
 ** Colors
 You can easily change the theme of this widget by editing the =colors.rasi=. Check [[https://github.com/adi1090x/rofi/tree/master/files/colors][this]] repository out for more color options.
+** Directory
+You can change where the script looks for files by chaning the =DIR= variable in =spotify.sh= if you want to put the script anywhere other than =~/.config/rofi/spotify=.
 
 * Credits
 This script was heavily inspired by [[https://github.com/adi1090x/rofi][adi1080x's rofi]] and uses his mpd widget theming. Check out his repo for more cool rofi widgets.
